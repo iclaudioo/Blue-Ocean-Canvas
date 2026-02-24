@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Blue Ocean Strategy Canvas</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600;700&display=swap');
+
+  :root {
+    --bg: #0A0E0C;
+    --bg2: #0F1613;
+    --surface: #151D19;
+    --surface2: #1C2620;
+    --border: #263430;
+    --border-l: #344840;
+    --red: #F06B58;
+    --red-dim: #C44536;
+    --blue: #58B4F0;
+    --blue-dim: #2E8FCC;
+    --green: #4ECDA0;
+    --green-dim: #2FA87A;
+    --amber: #E8B44C;
+    --text: #ECF0ED;
+    --text2: #B8CABD;
+    --text3: #7E9488;
+    --text4: #4E665A;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  body{
+    font-family:'Instrument Sans',-apple-system,sans-serif;
+    background:var(--bg);color:var(--text);
+    -webkit-font-smoothing:antialiased;
+    -webkit-tap-highlight-color:transparent;
+    min-height:100vh;overflow-x:hidden;
+  }
+
+  /* ═══ HEADER ═══ */
+  .hdr{padding:2.25rem 1.25rem 1rem;position:relative;text-align:center}
+  .hdr::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:320px;
+    background:radial-gradient(ellipse at 50% -30%,rgba(78,205,160,0.07) 0%,transparent 70%);
+    pointer-events:none;
+  }
+  .hdr-in{position:relative;max-width:660px;margin:0 auto}
+  .hdr-tag{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:0.68rem;font-weight:600;color:var(--green);
+    text-transform:uppercase;letter-spacing:0.12em;
+    margin-bottom:0.85rem;padding:5px 12px;border-radius:20px;
+    background:rgba(78,205,160,0.08);border:1px solid rgba(78,205,160,0.15);
+  }
+  .hdr-tag .pulse{
+    width:6px;height:6px;border-radius:50%;background:var(--green);
+    animation:pulse 2s ease infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
+  .hdr h1{
+    font-family:'Instrument Serif',Georgia,serif;
+    font-size:2rem;font-weight:400;color:var(--text);
+    line-height:1.18;margin-bottom:0.65rem;
+  }
+  .hdr h1 em{font-style:italic;color:var(--green)}
+  .hdr-p{color:var(--text3);font-size:0.88rem;line-height:1.6;max-width:480px;margin:0 auto}
+
+  /* ═══ WRAPPER ═══ */
+  .wrap{max-width:860px;margin:0 auto;padding:0 1.25rem 3.5rem}
+
+  /* ═══ INDUSTRY PICKER ═══ */
+  .pick{margin:1.75rem 0 0;text-align:left}
+  .pick-label{
+    font-size:0.7rem;font-weight:700;color:var(--text3);
+    text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.6rem;
+    text-align:center;
+  }
+  .pick-grid{display:grid;grid-template-columns:1fr;gap:8px}
+  .pick-btn{
+    background:var(--surface);border:1.5px solid var(--border);border-radius:10px;
+    padding:14px 16px;min-height:52px;
+    color:var(--text2);font:inherit;font-size:0.88rem;font-weight:600;
+    cursor:pointer;transition:all 0.2s;text-align:left;
+    display:flex;flex-direction:column;gap:3px;
+  }
+  .pick-btn span{font-size:0.75rem;font-weight:400;color:var(--text4);transition:color 0.2s;line-height:1.4}
+  .pick-btn:hover,.pick-btn:active{border-color:var(--green-dim);background:var(--bg2)}
+  .pick-btn.active{border-color:var(--green);background:rgba(78,205,160,0.07);color:var(--green)}
+  .pick-btn.active span{color:var(--text3)}
+
+  /* ═══ RESULT AREA ═══ */
+  .res{display:none;margin-top:2.5rem}
+  .res.show{display:block}
+
+  .sec{margin-bottom:2rem}
+  .sec-h{display:flex;align-items:center;gap:10px;margin-bottom:0.85rem}
+  .sec-line{width:3px;height:18px;border-radius:2px;flex-shrink:0}
+  .sec-line.gr{background:var(--green)}
+  .sec-line.rd{background:var(--red)}
+  .sec-line.bl{background:var(--blue)}
+  .sec-line.am{background:var(--amber)}
+  .sec-t{font-family:'Instrument Serif',Georgia,serif;font-size:1.1rem;color:var(--text)}
+
+  /* Summary */
+  .summary{
+    font-size:0.92rem;line-height:1.72;color:var(--text2);
+    max-width:640px;margin-bottom:2rem;
+  }
+  .summary strong{color:var(--green);font-weight:600}
+
+  /* Card */
+  .crd{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+
+  /* Chart */
+  .ch-top{display:flex;justify-content:space-between;align-items:center;padding:1rem 1rem .6rem}
+  .lgn{display:flex;gap:18px}
+  .lgn-i{display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600}
+  .lgn-d{width:10px;height:3px;border-radius:2px;flex-shrink:0}
+  .lgn-d.r{background:var(--red)}.lgn-d.b{background:var(--blue)}
+  .ch-scroll{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;padding:0 0 4px}
+  .ch-scroll::-webkit-scrollbar{height:3px}
+  .ch-scroll::-webkit-scrollbar-track{background:var(--bg2)}
+  .ch-scroll::-webkit-scrollbar-thumb{background:var(--border-l);border-radius:2px}
+  .ch-svg{display:block}
+
+  .line-anim{stroke-dasharray:2000;stroke-dashoffset:2000;animation:draw 1.2s ease forwards}
+  .line-anim.del{animation-delay:.5s}
+  .fill-anim{opacity:0;animation:fadeIn .8s ease forwards}
+  .fill-anim.del{animation-delay:.6s}
+  .dot-pop{opacity:0;animation:popIn .3s ease forwards}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @keyframes fadeIn{to{opacity:1}}
+  @keyframes popIn{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
+
+  /* Sliders */
+  .sl-wrap{padding:1rem;border-top:1px solid var(--border)}
+  .sl-head{
+    display:grid;grid-template-columns:1fr 1fr;gap:8px;
+    margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--border);
+  }
+  .sl-head span{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;text-align:center}
+  .sl-head .lr{color:var(--red)}.sl-head .lb{color:var(--blue)}
+
+  .sl-row{padding:10px 0;border-bottom:1px solid rgba(38,52,48,0.5)}
+  .sl-row:last-child{border-bottom:none}
+  .sl-name{font-size:.84rem;font-weight:600;color:var(--text2);margin-bottom:8px}
+  .sl-tracks{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .sl-t{display:flex;align-items:center;gap:8px}
+  .sl-t input[type=range]{
+    flex:1;height:4px;-webkit-appearance:none;appearance:none;
+    border-radius:2px;outline:none;touch-action:manipulation;background:var(--border);
+  }
+  .sl-t input.sr{background:linear-gradient(90deg,var(--border),var(--red-dim))}
+  .sl-t input.sb{background:linear-gradient(90deg,var(--border),var(--blue-dim))}
+  .sl-t input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;width:24px;height:24px;border-radius:50%;
+    border:3px solid var(--surface);
+    box-shadow:0 0 0 1px rgba(255,255,255,0.1),0 2px 6px rgba(0,0,0,0.4);
+  }
+  .sl-t input.sr::-webkit-slider-thumb{background:var(--red)}
+  .sl-t input.sb::-webkit-slider-thumb{background:var(--blue)}
+  .sl-t input[type=range]::-moz-range-thumb{
+    width:22px;height:22px;border-radius:50%;border:3px solid var(--surface);
+    box-shadow:0 0 0 1px rgba(255,255,255,0.1),0 2px 6px rgba(0,0,0,0.4);
+  }
+  .sl-t input.sr::-moz-range-thumb{background:var(--red)}
+  .sl-t input.sb::-moz-range-thumb{background:var(--blue)}
+  .sl-v{min-width:18px;text-align:center;font-size:.88rem;font-weight:700;font-variant-numeric:tabular-nums}
+  .sl-v.vr{color:var(--red)}.sl-v.vb{color:var(--blue)}
+
+  /* ERRC */
+  .errc{display:grid;grid-template-columns:1fr;gap:8px}
+  .ec{
+    background:var(--surface);border:1px solid var(--border);border-radius:10px;
+    padding:1rem 1rem 1rem 1.15rem;position:relative;
+  }
+  .ec::before{
+    content:'';position:absolute;top:12px;left:0;
+    width:3px;height:calc(100% - 24px);border-radius:0 2px 2px 0;
+  }
+  .ec.el::before{background:var(--red)}
+  .ec.re::before{background:var(--amber)}
+  .ec.ra::before{background:var(--green)}
+  .ec.cr::before{background:var(--blue)}
+  .ec-tl{font-weight:700;font-size:.88rem;margin-bottom:6px}
+  .ec.el .ec-tl{color:var(--red)}
+  .ec.re .ec-tl{color:var(--amber)}
+  .ec.ra .ec-tl{color:var(--green)}
+  .ec.cr .ec-tl{color:var(--blue)}
+  .ec-body{font-size:.84rem;color:var(--text2);line-height:1.65}
+  .ec-body li{margin-bottom:3px;margin-left:1rem}
+
+  /* Recommendations */
+  .rec{
+    background:var(--surface);border:1px solid var(--border);border-radius:10px;
+    padding:1.15rem;margin-bottom:8px;
+  }
+  .rec h4{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:5px}
+  .rec p{font-size:.84rem;color:var(--text2);line-height:1.65}
+
+  /* Tooltip */
+  .ch-tip{
+    position:fixed;background:var(--text);color:var(--bg);
+    font-size:.78rem;font-weight:600;padding:6px 12px;border-radius:6px;
+    pointer-events:none;opacity:0;transition:opacity .12s;z-index:100;
+    white-space:nowrap;transform:translate(-50%,calc(-100% - 12px));
+    box-shadow:0 4px 16px rgba(0,0,0,0.4);
+  }
+  .ch-tip.on{opacity:1}
+
+  /* Footer */
+  .ftr{
+    max-width:860px;margin:0 auto;padding:1.25rem;
+    border-top:1px solid var(--border);
+    font-size:.72rem;color:var(--text4);text-align:center;line-height:1.6;
+  }
+  .ftr a{color:var(--green-dim);text-decoration:none;font-weight:600}
+
+  /* Fade in */
+  .fade-up{opacity:0;transform:translateY(16px);animation:riseUp .5s ease forwards}
+  @keyframes riseUp{to{opacity:1;transform:translateY(0)}}
+
+  /* Desktop */
+  @media(min-width:640px){
+    .hdr{padding:3rem 2rem 1rem}
+    .hdr h1{font-size:2.5rem}
+    .wrap{padding:0 2rem 4rem}
+    .pick-grid{grid-template-columns:1fr 1fr}
+    .errc{grid-template-columns:1fr 1fr}
+    .sl-wrap{padding:1rem 1.5rem 1.25rem}
+    .ch-top{padding:1.25rem 1.5rem .75rem}
+    .ftr{display:flex;justify-content:space-between;text-align:left;padding:1.25rem 2rem}
+  }
+  @media(min-width:820px){
+    .pick-grid{grid-template-columns:repeat(3,1fr)}
+  }
+</style>
+</head>
+<body>
+
+<header class="hdr" id="hdr">
+  <div class="hdr-in">
+    <div class="hdr-tag"><span class="pulse"></span> Interactive strategy tool</div>
+    <h1>Pick your industry.<br><em>See your blue ocean.</em></h1>
+    <p class="hdr-p">Select the industry closest to yours. The canvas reveals how most players compete — and where the blue ocean opportunity lies.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="pick" id="pick">
+    <div class="pick-label">Select your industry</div>
+    <div class="pick-grid" id="pickGrid"></div>
+  </div>
+
+  <div class="res" id="res">
+    <!-- Dynamically filled -->
+  </div>
+</main>
+
+<footer class="ftr">
+  <span>Built with Claude &middot; <a href="https://www.linkedin.com/in/claudioswijsen/" target="_blank">Claudio Swijsen</a></span>
+  <span>Blue Ocean Strategy &middot; W. Chan Kim &amp; Ren&eacute;e Mauborgne</span>
+</footer>
+
+<div class="ch-tip" id="tip"></div>
+
+<script>
+const DATA = [
+  {
+    name: "Healthcare & medtech",
+    sub: "Providers and device companies trapped between regulatory burden and patient expectations",
+    summary: "Healthcare competes on clinical credentials, regulatory approvals, and institutional relationships — creating a red ocean where patients are treated as cases, not people. The blue ocean lies in <strong>patient-centric delivery with radical accessibility</strong>: reducing the friction between needing care and receiving it, while using technology to extend the reach of scarce clinical expertise.",
+    factors: ["Clinical credentials","Regulatory compliance","Wait time to care","Patient experience","Digital access","Preventive focus"],
+    red:  [5,5,1,2,1,1],
+    blue: [4,4,5,5,5,4],
+    errc: {
+      eliminate: ["Mandatory in-person visits for routine follow-ups and prescription renewals","Paper-based intake forms that patients fill out repeatedly at every visit"],
+      reduce: ["Dependency on specialist referral chains that add weeks of delay","Physical infrastructure costs by shifting suitable consultations to digital"],
+      raise: ["Patient experience from clinical afterthought to core differentiator","Preventive care from a brochure in the waiting room to an active, monitored program"],
+      create: ["Async-first triage: patients describe symptoms digitally and get routed to the right care level within hours","Continuous remote monitoring for chronic conditions, replacing quarterly check-ups with real-time alerts","Transparent pricing visible before treatment — the only industry where you buy before knowing the cost"]
+    },
+    recs: [
+      {title:"Make the wait the product, not the problem",body:"The average patient waits 3-6 weeks for a specialist. Build an async triage layer where patients submit symptoms, history, and photos digitally. An AI-assisted clinical team routes them within 24 hours: self-care guidance, GP, or fast-tracked specialist. The wait time itself becomes a competitive moat."},
+      {title:"Flip from episodic to continuous",body:"Replace quarterly check-ups with continuous remote monitoring for chronic patients. A connected blood pressure cuff that alerts a nurse when readings trend upward prevents the ER visit that costs 50x more. The economics and the outcomes both improve — a rare alignment."},
+      {title:"Show the price before the procedure",body:"Healthcare is the only major industry where customers routinely commit before knowing the cost. Publish transparent, all-in pricing for your top 20 procedures. You'll lose some margin on paper but gain massive patient trust and volume — the patients who shop around will all end up at your door."}
+    ]
+  },
+  {
+    name: "Financial services",
+    sub: "Banks and insurers squeezed between fintech speed and legacy trust",
+    summary: "Traditional banks compete by piling on products, branch networks, and compliance layers — creating complexity that nobody values. Fintechs win on speed but lack depth. The blue ocean lies in <strong>radical simplification combined with genuine financial guidance</strong>: fewer products, faster access, and proactive advisory that actually improves financial outcomes.",
+    factors: ["Fee transparency","Branch network","Product variety","Digital speed","Advisory depth","Onboarding friction"],
+    red:  [2,4,5,2,2,1],
+    blue: [5,1,2,5,4,5],
+    errc: {
+      eliminate: ["Physical branch network for routine transactions","Complex product tiers that confuse more than they serve"],
+      reduce: ["Product catalog — from 40+ products to 8 essentials","Internal compliance layers visible to the customer"],
+      raise: ["Fee transparency to radical openness: show exactly what every service costs","Advisory from annual reviews to proactive, AI-assisted financial health alerts"],
+      create: ["One-tap onboarding with live identity verification — account active in under 3 minutes","Financial health score: a personal dashboard that tracks spending, saving, and risk in real time","Life-event triggers: automatic recommendations when salary changes, children arrive, or retirement nears"]
+    },
+    recs: [
+      {title:"Make the invisible visible",body:"Most banks hide their fee structures in 40-page PDFs. Build a real-time fee dashboard showing exactly what the customer pays, for what, and how it compares to alternatives. The counterintuitive truth: radical transparency increases retention, it doesn't decrease it."},
+      {title:"Replace product selling with outcome tracking",body:"Stop pushing products. Instead, give every customer a financial health score they can check daily. When the score dips, offer targeted guidance. You shift from a vendor they avoid to a partner they check in with."},
+      {title:"Win the first 3 minutes",body:"Onboarding is where most banks lose the next generation. Build a flow where someone goes from zero to active account in under 3 minutes, with no branch visit. That single experience will generate more word-of-mouth than any ad campaign."}
+    ]
+  },
+  {
+    name: "Professional services",
+    sub: "Consulting and advisory firms competing on prestige, headcount, and hourly rates",
+    summary: "The consulting industry competes on team size, methodology jargon, and brand prestige — a red ocean where every pitch deck looks identical. The blue ocean lies in <strong>speed-to-insight and radical transparency</strong>: delivering answers in days instead of months, showing exactly how conclusions are reached, and embedding AI to do the heavy analysis while humans focus on judgment.",
+    factors: ["Brand prestige","Team size","Methodology depth","Speed to insight","Pricing transparency","Tech integration"],
+    red:  [4,4,4,1,1,1],
+    blue: [2,1,3,5,5,5],
+    errc: {
+      eliminate: ["Large on-site teams billing hours for data gathering","Proprietary methodology jargon designed to create dependency"],
+      reduce: ["Team size per engagement — from 6-person teams to 2-person + AI","Emphasis on brand prestige as a selling point"],
+      raise: ["Speed to insight: first findings within 5 business days, not 5 weeks","Pricing transparency: fixed-fee engagements with clear deliverable milestones"],
+      create: ["AI-augmented analysis layer: clients see the data, the model, and the reasoning in real time","Micro-engagements: 2-week strategic sprints instead of 6-month transformations","Open-source deliverables: everything the client pays for, they own and understand completely"]
+    },
+    recs: [
+      {title:"Compress the timeline by 10x",body:"The average consulting engagement takes 3-6 months. Commit to first actionable insights in 5 business days. Use AI for data analysis, pattern recognition, and benchmarking — then add human judgment on top. Most clients would pay a premium for speed, not a discount."},
+      {title:"Open the black box",body:"Give clients real-time access to your analysis environment. Let them see how you reached your conclusions. This terrifies traditional consultants because it removes mystique — but it builds the kind of trust that generates referrals and repeat business."},
+      {title:"Replace retainers with sprints",body:"Offer 2-week strategic sprints with fixed deliverables and fixed pricing. No scope creep, no hourly billing surprises. Each sprint ends with a decision: continue, pivot, or stop. This gives clients control and reduces their perceived risk to near zero."}
+    ]
+  },
+  {
+    name: "Manufacturing & industrial",
+    sub: "B2B manufacturers competing on unit cost while customers demand flexibility",
+    summary: "Industrial manufacturers are locked in a red ocean of unit cost optimization, MOQs, and long lead times. Buyers tolerate this because alternatives seem equally rigid. The blue ocean lies in <strong>mass customization with digital-first ordering</strong>: giving buyers the configurability of a bespoke shop with the reliability and pricing of a scaled manufacturer.",
+    factors: ["Unit cost","Minimum order qty","Lead time","Customization depth","After-sales support","Digital ordering"],
+    red:  [4,2,2,2,2,1],
+    blue: [3,4,4,5,4,5],
+    errc: {
+      eliminate: ["High minimum order quantities that shut out mid-market buyers","Paper-based quoting processes with 5-10 day response times"],
+      reduce: ["Obsessive unit cost optimization at the expense of flexibility","Standard catalog that forces buyers into predefined configurations"],
+      raise: ["Lead time predictability: from estimated windows to guaranteed delivery dates","After-sales support from reactive ticket systems to proactive maintenance alerts"],
+      create: ["Online product configurator with real-time pricing and 3D preview","Low-MOQ production runs enabled by flexible manufacturing cells","Digital twin integration: customers can track their order through production in real time"]
+    },
+    recs: [
+      {title:"Make ordering feel like e-commerce",body:"Build a product configurator where buyers select specs, see pricing instantly, and place orders without speaking to a sales rep. The manufacturing industry is 15 years behind consumer e-commerce. Close that gap and you eliminate your biggest source of friction."},
+      {title:"Turn MOQ from barrier to advantage",body:"Use flexible manufacturing cells to offer MOQs of 1-10 units at viable margins. The mid-market segment — too large for bespoke, too small for traditional MOQs — is massively underserved. Own it."},
+      {title:"Guarantee the date, not just the product",body:"Shift from quoting delivery windows to guaranteeing specific dates with penalties for delays. In an industry where everyone says 6-8 weeks, the manufacturer who says March 14 — and means it — wins every deal."}
+    ]
+  },
+  {
+    name: "Retail & consumer",
+    sub: "Physical retailers fighting e-commerce with declining foot traffic and thin margins",
+    summary: "Traditional retailers compete on assortment breadth, store locations, and price — all factors where Amazon and online pure-players have structural advantages. The blue ocean lies in <strong>curated experiences and community</strong>: transforming stores from transaction points into discovery spaces, and building direct relationships that no algorithm can replicate.",
+    factors: ["Price competitiveness","Assortment breadth","Store locations","Discovery experience","Personalization","Community connection"],
+    red:  [4,5,4,2,1,1],
+    blue: [2,2,2,5,5,5],
+    errc: {
+      eliminate: ["Attempting to match online pricing on commodity products","Stocking deep inventory of slow-moving categories"],
+      reduce: ["Number of store locations — fewer, larger, more experiential","Breadth of assortment: from 10,000 SKUs to 2,000 curated products"],
+      raise: ["In-store discovery experience: make browsing feel like an event, not a chore","Personalization through staff expertise and clienteling, not just algorithms"],
+      create: ["Community events program: workshops, tastings, launches that give people a reason to visit","Membership model with early access, styling advice, and personal shopping","Content-driven commerce: in-store storytelling about makers, origins, and craft"]
+    },
+    recs: [
+      {title:"Stop competing on what you can't win",body:"You will never beat Amazon on price or assortment. Stop trying. Instead, radically reduce your catalog to products you can tell a story about, and make every store visit feel like a discovery. Curation is the one thing algorithms can't do better than humans."},
+      {title:"Turn stores into membership clubs",body:"Introduce a paid membership (€10-15/month) that includes early access to new products, monthly styling sessions, and invitations to in-store events. The membership fee is not the revenue model — the 3x higher purchase frequency of members is."},
+      {title:"Build relationships, not transactions",body:"Train staff to be genuine advisors, not upsellers. Implement a simple CRM where every sales associate can see purchase history and preferences. The text message 'Hey Maria, the jacket you loved just arrived in navy' generates more revenue per impression than any digital ad."}
+    ]
+  }
+];
+
+const $=id=>document.getElementById(id);
+const tip=$('tip');
+let tt,activeIdx=-1;
+
+// Build picker
+const grid=$('pickGrid');
+DATA.forEach((d,i)=>{
+  const btn=document.createElement('button');
+  btn.className='pick-btn';
+  btn.innerHTML=`${d.name}<span>${d.sub}</span>`;
+  btn.addEventListener('click',()=>{
+    grid.querySelectorAll('.pick-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    if(activeIdx!==i){activeIdx=i;render(d);}
+  });
+  grid.appendChild(btn);
+});
+
+function render(d){
+  const res=$('res');
+  const PAD={t:35,r:28,b:55,l:44};
+  const ch=window.innerWidth>=640?360:280;
+
+  // Clone data for mutability
+  const S={f:[...d.factors],r:[...d.red],b:[...d.blue]};
+
+  function CW(){
+    const min=window.innerWidth>=640?110:80;
+    return Math.max(window.innerWidth-48,S.f.length*min+PAD.l+PAD.r);
+  }
+
+  let h='';
+
+  // Summary
+  h+=`<div class="sec fade-up" style="animation-delay:.1s">
+    <p class="summary">${d.summary}</p>
+  </div>`;
+
+  // Chart
+  h+=`<div class="sec fade-up" style="animation-delay:.2s">
+    <div class="sec-h"><div class="sec-line gr"></div><div class="sec-t">Value curves</div></div>
+    <div class="crd">
+      <div class="ch-top"><div class="lgn">
+        <div class="lgn-i"><div class="lgn-d r"></div><span style="color:var(--red)">Industry standard</span></div>
+        <div class="lgn-i"><div class="lgn-d b"></div><span style="color:var(--blue)">Blue ocean move</span></div>
+      </div></div>
+      <div class="ch-scroll" id="chs"><svg id="svg" class="ch-svg"></svg></div>
+      <div class="sl-wrap">
+        <div class="sl-head"><span class="lr">&#9679; Industry</span><span class="lb">&#9679; Blue ocean</span></div>
+        <div id="sls"></div>
+      </div>
+    </div>
+  </div>`;
+
+  // ERRC
+  h+=`<div class="sec fade-up" style="animation-delay:.35s">
+    <div class="sec-h"><div class="sec-line am"></div><div class="sec-t">Four actions framework</div></div>
+    <div class="errc">
+      <div class="ec el"><div class="ec-tl">Eliminate</div><div class="ec-body"><ul>${d.errc.eliminate.map(i=>`<li>${i}</li>`).join('')}</ul></div></div>
+      <div class="ec re"><div class="ec-tl">Reduce</div><div class="ec-body"><ul>${d.errc.reduce.map(i=>`<li>${i}</li>`).join('')}</ul></div></div>
+      <div class="ec ra"><div class="ec-tl">Raise</div><div class="ec-body"><ul>${d.errc.raise.map(i=>`<li>${i}</li>`).join('')}</ul></div></div>
+      <div class="ec cr"><div class="ec-tl">Create</div><div class="ec-body"><ul>${d.errc.create.map(i=>`<li>${i}</li>`).join('')}</ul></div></div>
+    </div>
+  </div>`;
+
+  // Recommendations
+  h+=`<div class="sec fade-up" style="animation-delay:.5s">
+    <div class="sec-h"><div class="sec-line bl"></div><div class="sec-t">Strategic moves</div></div>
+    ${d.recs.map(r=>`<div class="rec"><h4>${r.title}</h4><p>${r.body}</p></div>`).join('')}
+  </div>`;
+
+  res.innerHTML=h;
+  res.classList.add('show');
+
+  // Build sliders
+  const sls=$('sls');
+  S.f.forEach((f,i)=>{
+    const row=document.createElement('div');row.className='sl-row';
+    const nm=document.createElement('div');nm.className='sl-name';nm.textContent=f;
+    const tracks=document.createElement('div');tracks.className='sl-tracks';
+
+    function mk(cls,arr){
+      const t=document.createElement('div');t.className='sl-t';
+      const inp=document.createElement('input');
+      inp.type='range';inp.min=0;inp.max=5;inp.step=1;inp.value=arr[i];inp.className=cls;
+      const v=document.createElement('span');
+      v.className='sl-v '+(cls==='sr'?'vr':'vb');v.textContent=arr[i];
+      inp.addEventListener('input',function(){arr[i]=+this.value;v.textContent=this.value;drawChart(S,false);});
+      t.appendChild(inp);t.appendChild(v);return t;
+    }
+    tracks.appendChild(mk('sr',S.r));
+    tracks.appendChild(mk('sb',S.b));
+    row.appendChild(nm);row.appendChild(tracks);sls.appendChild(row);
+  });
+
+  drawChart(S,true);
+
+  // Resize handler
+  window.onresize=()=>{drawChart(S,false);};
+
+  // Scroll to results
+  res.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function drawChart(S,anim){
+  const svg=$('svg');
+  const PAD={t:35,r:28,b:55,l:44};
+  const ch=window.innerWidth>=640?360:280;
+  const min=window.innerWidth>=640?110:80;
+  const w=Math.max(($('chs')?$('chs').clientWidth:window.innerWidth-48),S.f.length*min+PAD.l+PAD.r);
+  const n=S.f.length;
+
+  svg.setAttribute('viewBox',`0 0 ${w} ${ch}`);
+  svg.setAttribute('width',w);
+  svg.style.height=ch+'px';
+  svg.style.minWidth=w+'px';
+
+  function xP(i){return n<=1?PAD.l+(w-PAD.l-PAD.r)/2:PAD.l+(i/(n-1))*(w-PAD.l-PAD.r);}
+  function yP(v){return PAD.t+(ch-PAD.t-PAD.b)*(1-v/5);}
+
+  function curvePath(sc){
+    const pts=sc.map((s,i)=>({x:xP(i),y:yP(s)}));
+    if(pts.length<2)return'';
+    let d=`M${pts[0].x},${pts[0].y}`;
+    for(let j=1;j<pts.length;j++){
+      const p=pts[j-1],c=pts[j],mx=(p.x+c.x)/2;
+      d+=` C${mx},${p.y} ${mx},${c.y} ${c.x},${c.y}`;
+    }
+    return d;
+  }
+  function fillP(sc){const l=curvePath(sc);return l?l+` L${xP(sc.length-1)},${yP(0)} L${xP(0)},${yP(0)} Z`:'';}
+
+  let s=`<defs>
+    <linearGradient id="gfr" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F06B58" stop-opacity="0.20"/>
+      <stop offset="100%" stop-color="#F06B58" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="gfb" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#58B4F0" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#58B4F0" stop-opacity="0"/>
+    </linearGradient>
+  </defs>`;
+
+  for(let v=0;v<=5;v++){
+    const y=yP(v);
+    s+=`<line x1="${PAD.l}" y1="${y}" x2="${w-PAD.r}" y2="${y}" stroke="${v===0?'#344840':'#1C2A23'}" stroke-width="1"/>`;
+    s+=`<text x="${PAD.l-12}" y="${y+4}" font-family="Instrument Sans,sans-serif" font-size="12" fill="#7E9488" text-anchor="end" font-weight="500">${v}</text>`;
+  }
+  for(let i=0;i<n;i++){
+    const x=xP(i);
+    s+=`<line x1="${x}" y1="${PAD.t}" x2="${x}" y2="${yP(0)}" stroke="#1C2A23" stroke-width="1" stroke-dasharray="2,4"/>`;
+    const lbl=S.f[i].length>16?S.f[i].slice(0,15)+'\u2026':S.f[i];
+    s+=`<text x="${x}" y="${ch-16}" font-family="Instrument Sans,sans-serif" font-size="11" font-weight="600" fill="#B8CABD" text-anchor="middle">${lbl}</text>`;
+  }
+
+  const fr=fillP(S.r),fb=fillP(S.b);
+  const lr=curvePath(S.r),lb=curvePath(S.b);
+  const a=anim?' class="fill-anim"':'';
+  const ad=anim?' class="fill-anim del"':'';
+  if(fr)s+=`<path d="${fr}" fill="url(#gfr)"${a}/>`;
+  if(fb)s+=`<path d="${fb}" fill="url(#gfb)"${ad}/>`;
+  const la=anim?' class="line-anim"':'';
+  const lad=anim?' class="line-anim del"':'';
+  if(lr)s+=`<path d="${lr}" fill="none" stroke="#F06B58" stroke-width="3" stroke-linecap="round"${la}/>`;
+  if(lb)s+=`<path d="${lb}" fill="none" stroke="#58B4F0" stroke-width="3" stroke-linecap="round"${lad}/>`;
+
+  function addDots(arr,color,type,bd){
+    arr.forEach((v,i)=>{
+      const cx=xP(i),cy=yP(v);
+      const ds=anim?` class="dot-pop" style="animation-delay:${bd+i*0.08}s;transform-origin:${cx}px ${cy}px"`:' style="opacity:1"';
+      s+=`<circle data-t="${type}" data-i="${i}" cx="${cx}" cy="${cy}" r="20" fill="transparent" style="cursor:pointer"/>`;
+      s+=`<g${ds}><circle cx="${cx}" cy="${cy}" r="7" fill="${color}" opacity="0.15"/><circle cx="${cx}" cy="${cy}" r="4.5" fill="${color}" stroke="#0A0E0C" stroke-width="1.5"/></g>`;
+    });
+  }
+  addDots(S.r,'#F06B58','r',0.8);
+  addDots(S.b,'#58B4F0','b',1.2);
+
+  svg.innerHTML=s;
+
+  // Tooltips
+  svg.querySelectorAll('circle[data-t]').forEach(dot=>{
+    function show(e){
+      e.preventDefault();
+      const t=dot.dataset.t,idx=+dot.dataset.i;
+      const val=t==='r'?S.r[idx]:S.b[idx];
+      const label=t==='r'?'Industry':'Blue ocean';
+      const clr=t==='r'?'#F06B58':'#58B4F0';
+      tip.innerHTML=`<span style="color:${clr}">${label}</span>&ensp;${S.f[idx]}: <b>${val}</b>/5`;
+      tip.classList.add('on');
+      const cx=e.touches?e.touches[0].clientX:e.clientX;
+      const cy=e.touches?e.touches[0].clientY:e.clientY;
+      tip.style.left=cx+'px';tip.style.top=(cy-8)+'px';
+      clearTimeout(tt);tt=setTimeout(()=>tip.classList.remove('on'),2200);
+    }
+    dot.addEventListener('touchstart',show,{passive:false});
+    dot.addEventListener('mouseenter',show);
+    dot.addEventListener('mouseleave',()=>{clearTimeout(tt);tip.classList.remove('on');});
+  });
+}
+</script>
+</body>
+</html>
