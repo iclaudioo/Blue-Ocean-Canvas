@@ -138,6 +138,26 @@ function AnalysisInner() {
                 {industry && <span className="text-ink4"> · {industry}</span>}
               </p>
             )}
+            {ua.analysis?.meta.source === "ai" &&
+              ua.analysis.meta.language !== lang && (
+                <div className="no-print mb-6">
+                  <button
+                    onClick={() => {
+                      const m = ua.analysis!.meta;
+                      setReqMeta({ company: m.company, industry: m.industry });
+                      ua.start({
+                        company: m.company,
+                        industry: m.industry,
+                        context: m.context,
+                        language: lang,
+                      });
+                    }}
+                    className="text-xs font-semibold text-blue border border-blue-dim/40 rounded-lg px-3 py-2 hover:bg-blue/10 transition-colors"
+                  >
+                    {t("tool.regenerate")}
+                  </button>
+                </div>
+              )}
             {ua.error && (
               <div className="no-print bg-surface border border-red-dim/40 rounded-xl p-5 mb-8">
                 <p className="text-sm text-red">
