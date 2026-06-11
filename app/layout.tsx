@@ -17,9 +17,29 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Blue Ocean Strategy Studio",
+  title: {
+    default: "Blue Ocean Strategy Studio",
+    template: "%s · Blue Ocean Strategy Studio",
+  },
   description:
     "AI-powered Blue Ocean Strategy analysis: strategy canvas, four actions, six paths, buyer utility map, noncustomers and the strategy sequence — for any company and industry.",
+  openGraph: {
+    title: "Blue Ocean Strategy Studio",
+    description:
+      "Enter any company and industry — get a full Blue Ocean Strategy analysis with six interactive frameworks.",
+    type: "website",
+    siteName: "Blue Ocean Strategy Studio",
+  },
+  twitter: {
+    card: "summary",
+    title: "Blue Ocean Strategy Studio",
+    description:
+      "AI-powered Blue Ocean Strategy analysis with six interactive frameworks.",
+  },
+};
+
+export const viewport = {
+  themeColor: "#0A0E0C",
 };
 
 export default function RootLayout({
