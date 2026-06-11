@@ -27,7 +27,12 @@ function AnalysisInner() {
   useEffect(() => {
     if (bootedRef.current || presetId) return;
     bootedRef.current = true;
+    // Deferred a tick: storage/hash reads are browser-only and the resulting
+    // state updates shouldn't cascade synchronously inside the effect body.
+    const id = window.setTimeout(boot, 0);
+    return () => window.clearTimeout(id);
 
+    function boot() {
     if (location.hash.length > 1) {
       const shared = decodeShare(location.hash);
       if (shared) {
@@ -67,19 +72,23 @@ function AnalysisInner() {
       // fall through to home
     }
     router.replace("/");
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Presets follow the language toggle (both languages are committed).
   useEffect(() => {
     if (!presetId) return;
-    const preset = getPreset(presetId, lang);
-    if (preset) {
-      ua.loadExisting(preset);
-      setMode("ready");
-    } else {
-      setMode("badlink");
-    }
+    const id = window.setTimeout(() => {
+      const preset = getPreset(presetId, lang);
+      if (preset) {
+        ua.loadExisting(preset);
+        setMode("ready");
+      } else {
+        setMode("badlink");
+      }
+    }, 0);
+    return () => window.clearTimeout(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [presetId, lang]);
 
@@ -87,8 +96,11 @@ function AnalysisInner() {
   const company = meta?.company ?? reqMeta?.company ?? "";
   const industry = meta?.industry ?? reqMeta?.industry ?? "";
 
+  const generating = ua.phase === "core" || ua.phase === "frameworks";
+
   return (
     <main className="flex-1">
+      {generating && <div className="progress-bar no-print" aria-hidden />}
       {/* Top bar */}
       <div className="no-print border-b border-line">
         <div className="max-w-4xl mx-auto px-5 py-4 flex items-center justify-between gap-4">

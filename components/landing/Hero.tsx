@@ -23,19 +23,27 @@ export default function Hero() {
         <LangToggle />
       </div>
 
-      <div className="fade-up relative mx-auto max-w-2xl">
-        <div className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-green/15 bg-green/[0.08] px-3 py-1.5 text-[0.68rem] font-semibold tracking-[0.12em] text-green uppercase">
+      <div className="relative mx-auto max-w-2xl">
+        <div
+          className="fade-up mb-4 inline-flex items-center gap-1.5 rounded-full border border-green/15 bg-green/[0.08] px-3 py-1.5 text-[0.68rem] font-semibold tracking-[0.12em] text-green uppercase"
+        >
           <span className="pulse h-1.5 w-1.5 rounded-full bg-green" />
           {t("app.tagline")}
         </div>
 
-        <h1 className="font-serif text-4xl leading-[1.15] font-normal text-ink sm:text-5xl md:text-6xl">
+        <h1
+          className="fade-up font-serif text-4xl leading-[1.15] font-normal text-ink sm:text-5xl md:text-6xl"
+          style={{ animationDelay: "0.12s" }}
+        >
           {t("app.heroTitle1")}
           <br />
           <em className="text-green italic">{t("app.heroTitle2")}</em>
         </h1>
 
-        <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-ink3 sm:text-base">
+        <p
+          className="fade-up mx-auto mt-5 max-w-xl text-sm leading-relaxed text-ink3 sm:text-base"
+          style={{ animationDelay: "0.24s" }}
+        >
           {t("app.heroSub")}
         </p>
       </div>

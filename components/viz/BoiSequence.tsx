@@ -100,7 +100,7 @@ export function BoiSequence({ boiSequence }: { boiSequence: BoiSequenceData }) {
 
                   {step.verdict !== "pass" && step.actions.length > 0 && (
                     <details className="group mt-3 rounded-lg border border-line/70 bg-bg2">
-                      <summary className="cursor-pointer select-none px-3.5 py-2 text-[0.74rem] font-bold uppercase tracking-[0.08em] text-ink3 transition-colors duration-200 hover:text-ink2">
+                      <summary className="cursor-pointer list-none select-none px-3.5 py-2 text-[0.74rem] font-bold uppercase tracking-[0.08em] text-ink3 transition-colors duration-200 hover:text-ink2 [&::-webkit-details-marker]:hidden">
                         <span aria-hidden className="mr-1.5 inline-block transition-transform duration-200 group-open:rotate-90">
                           ▸
                         </span>

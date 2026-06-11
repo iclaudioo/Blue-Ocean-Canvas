@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useI18n } from "@/lib/i18n";
 
 const COLORS = {
@@ -32,10 +32,34 @@ export function SectionShell({
   actions,
 }: Props) {
   const { t } = useI18n();
+  const ref = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+
+  // Reveal on scroll: the fade-up runs when the section enters the viewport
+  // instead of all sections animating at mount. Print CSS forces visibility.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setInView(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.08, rootMargin: "0px 0px -40px 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section
-      className="fade-up print-section"
+      ref={ref}
+      className={`print-section ${inView ? "fade-up" : "reveal-hold"}`}
       style={{ animationDelay: `${delay}s` }}
     >
       <div className="flex items-center gap-2.5 mb-3.5">

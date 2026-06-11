@@ -31,16 +31,21 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Language>("en");
 
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored === "en" || stored === "nl") {
-        setLangState(stored);
-      } else if (navigator.language?.toLowerCase().startsWith("nl")) {
-        setLangState("nl");
+    // Deferred a tick: avoids a synchronous setState cascade in the effect
+    // body while staying SSR-safe (localStorage is browser-only).
+    const id = window.setTimeout(() => {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored === "en" || stored === "nl") {
+          setLangState(stored);
+        } else if (navigator.language?.toLowerCase().startsWith("nl")) {
+          setLangState("nl");
+        }
+      } catch {
+        // private mode etc. — keep default
       }
-    } catch {
-      // private mode etc. — keep default
-    }
+    }, 0);
+    return () => window.clearTimeout(id);
   }, []);
 
   useEffect(() => {

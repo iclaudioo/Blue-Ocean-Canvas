@@ -115,6 +115,37 @@ body {
   }
 }
 
+@keyframes progress-slide {
+  from {
+    left: -35%;
+  }
+  to {
+    left: 105%;
+  }
+}
+
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 60;
+  background: rgba(78, 205, 160, 0.12);
+  overflow: hidden;
+}
+
+.progress-bar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 35%;
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--green-dim), var(--green), var(--blue));
+  animation: progress-slide 1.4s ease-in-out infinite;
+}
+
 @keyframes shimmer {
   0% {
     opacity: 0.45;
@@ -131,6 +162,12 @@ body {
   opacity: 0;
   transform: translateY(16px);
   animation: rise-up 0.5s ease forwards;
+}
+
+/* Held invisible until the IntersectionObserver swaps it to .fade-up. */
+.reveal-hold {
+  opacity: 0;
+  transform: translateY(16px);
 }
 
 .dot-pop {
@@ -167,7 +204,8 @@ body {
   }
   .pulse,
   .skeleton,
-  .wave-layer {
+  .wave-layer,
+  .progress-bar::after {
     animation: none !important;
   }
 }
@@ -271,6 +309,7 @@ input[type="range"].slider.sl-red::-moz-range-thumb {
   }
 
   .fade-up,
+  .reveal-hold,
   .dot-pop,
   .line-anim,
   .fill-anim {
