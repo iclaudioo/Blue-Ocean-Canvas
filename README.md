@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Blue Ocean Strategy Studio
 
-## Getting Started
+AI-powered Blue Ocean Strategy analysis for any company and industry. Enter a
+company and sector, and the studio generates a full, coherent analysis rendered
+into interactive visualizations:
 
-First, run the development server:
+- **Strategy canvas** — industry vs. blue ocean value curves, editable via sliders
+- **Four actions framework (ERRC)** — eliminate / reduce / raise / create
+- **Six paths framework** — six exploration directions with sector-specific insights
+- **Buyer utility map** — the 6×6 utility levers × buyer experience cycle heatmap
+- **Three tiers of noncustomers** — concentric-circle visualization with unlock strategies
+- **Blue ocean strategy sequence** — utility → price → cost → adoption gate check
+
+Eight curated example industries work instantly without an API key, in both
+English and Dutch. AI generation streams in progressively, section by section.
+
+Based on *Blue Ocean Strategy* by W. Chan Kim & Renée Mauborgne.
+
+## Stack
+
+Next.js (App Router) · TypeScript · Tailwind CSS v4 · custom SVG visualizations ·
+Claude API (`claude-sonnet-4-6`) with structured outputs, streamed over SSE.
+No database; sharing is a compressed URL hash, history lives in localStorage.
+
+## Development
 
 ```bash
+npm install
+cp .env.example .env.local   # add your ANTHROPIC_API_KEY
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+To develop without an API key, set `MOCK_AI=1` in `.env.local` — the API routes
+stream a built-in fixture so the full streaming UX works offline.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Checks: `npm run lint`, `npx tsc --noEmit`, `npm run build`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deployment (Vercel)
 
-## Learn More
+1. Import the repository in Vercel.
+2. Set the `ANTHROPIC_API_KEY` environment variable.
+3. Deploy. The AI routes use the Node runtime with `maxDuration = 120`;
+   streaming starts within seconds so function timeouts are not an issue on
+   Hobby (fluid compute) or Pro plans.
 
-To learn more about Next.js, take a look at the following resources:
+### Rate limiting
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The API routes apply an in-memory sliding window per IP (6 analyses/hour,
+40 framework calls/hour) plus an Origin check and strict input length caps.
+On serverless this is per-warm-instance — adequate for a portfolio tool whose
+real cost ceiling is the per-call `max_tokens` cap. For strict limits, swap
+`lib/rate-limit.ts` for `@upstash/ratelimit` backed by Redis.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project layout
 
-## Deploy on Vercel
+```
+app/                  pages + API routes (analyze, framework)
+components/viz/       the six framework visualizations (custom SVG/CSS)
+components/analysis/  results page composition, skeletons, section shells
+components/landing/   hero, waves, form, example gallery, history
+lib/schema.ts         canonical zod Analysis model (single source of truth)
+lib/ai/               prompts, Claude orchestration, mock fixtures
+lib/presets/          8 curated industries × 2 languages
+lib/i18n/             EN/NL dictionaries + provider
+legacy/index.html     the original single-file app, kept for reference
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Credits
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built with [Claude](https://claude.ai) ·
+[Claudio Swijsen](https://www.linkedin.com/in/claudioswijsen/)
