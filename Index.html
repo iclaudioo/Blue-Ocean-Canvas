@@ -38,7 +38,7 @@
   }
 
   /* ═══ HEADER ═══ */
-  .hdr{padding:2.25rem 1.25rem 1rem;position:relative;text-align:center}
+  .hdr{padding:2.25rem 1.25rem 4rem;position:relative;text-align:center;overflow:hidden}
   .hdr::before{
     content:'';position:absolute;top:0;left:0;right:0;height:320px;
     background:radial-gradient(ellipse at 50% -30%,rgba(78,205,160,0.07) 0%,transparent 70%);
@@ -65,6 +65,19 @@
   .hdr h1 em{font-style:italic;color:var(--green)}
   .hdr-p{color:var(--text3);font-size:0.88rem;line-height:1.6;max-width:480px;margin:0 auto}
 
+  /* Ocean waves */
+  .hdr-waves{position:absolute;left:0;right:0;bottom:0;height:64px;overflow:hidden;pointer-events:none}
+  .hdr-waves .wv{position:absolute;bottom:0;left:0;width:200%;display:block;will-change:transform}
+  .wv1{height:64px;fill:var(--blue);opacity:.06;animation:wDrift 24s linear infinite}
+  .wv2{height:46px;fill:var(--green);opacity:.05;animation:wDriftR 32s linear infinite}
+  .wv3{height:32px;fill:var(--blue-dim);opacity:.09;animation:wDrift 17s linear infinite}
+  @keyframes wDrift{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @keyframes wDriftR{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+  @media(prefers-reduced-motion:reduce){
+    .hdr-waves .wv{animation:none}
+    .hdr-tag .pulse{animation:none}
+  }
+
   /* ═══ WRAPPER ═══ */
   .wrap{max-width:860px;margin:0 auto;padding:0 1.25rem 3.5rem}
 
@@ -87,6 +100,9 @@
   .pick-btn:hover,.pick-btn:active{border-color:var(--green-dim);background:var(--bg2)}
   .pick-btn.active{border-color:var(--green);background:rgba(78,205,160,0.07);color:var(--green)}
   .pick-btn.active span{color:var(--text3)}
+  .pick-btn.build{border-style:dashed;border-color:var(--border-l);background:transparent;color:var(--text3)}
+  .pick-btn.build:hover,.pick-btn.build:active{border-color:var(--blue-dim);background:var(--bg2);color:var(--blue)}
+  .pick-btn.build.active{border-color:var(--blue);background:rgba(88,180,240,0.07);color:var(--blue)}
 
   /* ═══ RESULT AREA ═══ */
   .res{display:none;margin-top:2.5rem}
@@ -168,6 +184,50 @@
   .sl-v{min-width:18px;text-align:center;font-size:.88rem;font-weight:700;font-variant-numeric:tabular-nums}
   .sl-v.vr{color:var(--red)}.sl-v.vb{color:var(--blue)}
 
+  /* Custom mode */
+  .c-title{
+    width:100%;background:transparent;border:none;outline:none;
+    border-bottom:1px dashed var(--border-l);border-radius:0;
+    font-family:'Instrument Serif',Georgia,serif;font-size:1.55rem;
+    color:var(--text);padding:2px 0 8px;
+  }
+  .c-title:focus{border-bottom-color:var(--green)}
+  .c-help{font-size:.84rem;color:var(--text3);line-height:1.6;margin-top:10px;max-width:560px}
+  .sl-name-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+  .sl-name-in{
+    flex:1;min-width:0;background:transparent;border:none;outline:none;
+    border-bottom:1px dashed transparent;border-radius:0;
+    font:inherit;font-size:.84rem;font-weight:600;color:var(--text2);padding:2px 0;
+  }
+  .sl-name-in:hover,.sl-name-in:focus{border-bottom-color:var(--border-l)}
+  .sl-rm{
+    background:transparent;border:none;color:var(--text4);
+    font-size:1.15rem;line-height:1;cursor:pointer;
+    padding:3px 8px;border-radius:6px;transition:all .2s;
+  }
+  .sl-rm:hover{color:var(--red);background:rgba(240,107,88,0.08)}
+  .sl-rm:disabled{opacity:.3;cursor:default;background:transparent;color:var(--text4)}
+  .add-f{
+    width:100%;margin-top:12px;background:transparent;
+    border:1.5px dashed var(--border-l);border-radius:8px;padding:10px;
+    color:var(--text3);font:inherit;font-size:.8rem;font-weight:600;
+    cursor:pointer;transition:all .2s;
+  }
+  .add-f:hover{border-color:var(--green-dim);color:var(--green)}
+  .add-f:disabled{opacity:.4;cursor:default;border-color:var(--border-l);color:var(--text3)}
+
+  /* Toolbar */
+  .tools{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .tool-btn{
+    background:transparent;border:1px solid var(--border);border-radius:8px;
+    padding:7px 14px;color:var(--text3);font:inherit;font-size:.78rem;font-weight:600;
+    cursor:pointer;transition:all .2s;
+  }
+  .tool-btn:hover{border-color:var(--border-l);color:var(--text2)}
+  .tool-btn.ok{border-color:var(--green);color:var(--green)}
+  .tool-btn.reset{margin-left:auto;border-color:transparent;color:var(--text4);padding:7px 8px}
+  .tool-btn.reset:hover{color:var(--red);border-color:transparent}
+
   /* ERRC */
   .errc{display:grid;grid-template-columns:1fr;gap:8px}
   .ec{
@@ -222,7 +282,7 @@
 
   /* Desktop */
   @media(min-width:640px){
-    .hdr{padding:3rem 2rem 1rem}
+    .hdr{padding:3rem 2rem 4.5rem}
     .hdr h1{font-size:2.5rem}
     .wrap{padding:0 2rem 4rem}
     .pick-grid{grid-template-columns:1fr 1fr}
@@ -243,6 +303,11 @@
     <div class="hdr-tag"><span class="pulse"></span> Interactive strategy tool</div>
     <h1>Pick your industry.<br><em>See your blue ocean.</em></h1>
     <p class="hdr-p">Select the industry closest to yours. The canvas reveals how most players compete — and where the blue ocean opportunity lies.</p>
+  </div>
+  <div class="hdr-waves" aria-hidden="true">
+    <svg class="wv wv1" viewBox="0 0 2400 64" preserveAspectRatio="none"><path d="M0,32 C100,12 200,12 300,32 C400,52 500,52 600,32 C700,12 800,12 900,32 C1000,52 1100,52 1200,32 C1300,12 1400,12 1500,32 C1600,52 1700,52 1800,32 C1900,12 2000,12 2100,32 C2200,52 2300,52 2400,32 L2400,64 L0,64 Z"/></svg>
+    <svg class="wv wv2" viewBox="0 0 2400 64" preserveAspectRatio="none"><path d="M0,32 C100,12 200,12 300,32 C400,52 500,52 600,32 C700,12 800,12 900,32 C1000,52 1100,52 1200,32 C1300,12 1400,12 1500,32 C1600,52 1700,52 1800,32 C1900,12 2000,12 2100,32 C2200,52 2300,52 2400,32 L2400,64 L0,64 Z"/></svg>
+    <svg class="wv wv3" viewBox="0 0 2400 64" preserveAspectRatio="none"><path d="M0,32 C100,12 200,12 300,32 C400,52 500,52 600,32 C700,12 800,12 900,32 C1000,52 1100,52 1200,32 C1300,12 1400,12 1500,32 C1600,52 1700,52 1800,32 C1900,12 2000,12 2100,32 C2200,52 2300,52 2400,32 L2400,64 L0,64 Z"/></svg>
   </div>
 </header>
 
@@ -360,12 +425,90 @@ const DATA = [
       {title:"Turn stores into membership clubs",body:"Introduce a paid membership (€10-15/month) that includes early access to new products, monthly styling sessions, and invitations to in-store events. The membership fee is not the revenue model — the 3x higher purchase frequency of members is."},
       {title:"Build relationships, not transactions",body:"Train staff to be genuine advisors, not upsellers. Implement a simple CRM where every sales associate can see purchase history and preferences. The text message 'Hey Maria, the jacket you loved just arrived in navy' generates more revenue per impression than any digital ad."}
     ]
+  },
+  {
+    name: "Software & SaaS",
+    sub: "SaaS vendors stacking features and seats while customers struggle to see any outcome",
+    summary: "SaaS companies compete on feature checklists, seat-based pricing, and contractual lock-in — a red ocean where every product demo looks the same and 70% of purchased features go unused. The blue ocean lies in <strong>outcome-based simplicity with radical time-to-value</strong>: charging for results instead of seats, getting customers live in hours instead of quarters, and making leaving easy enough that nobody wants to.",
+    factors: ["Feature breadth","Seat pricing","Contract lock-in","Time to value","Outcome pricing","Ease of exit"],
+    red:  [5,5,4,1,1,1],
+    blue: [2,1,1,5,5,5],
+    errc: {
+      eliminate: ["Annual contracts with auto-renewal traps and 90-day cancellation windows","Feature-checklist roadmaps driven by competitor parity instead of customer outcomes"],
+      reduce: ["Per-seat pricing that punishes customers for rolling the product out widely","Implementation timelines — from 3-6 month onboarding projects to same-day activation"],
+      raise: ["Time-to-value: first measurable result within 24 hours of signup, not after a quarter","Data portability: one-click export of everything, in open formats, at any time"],
+      create: ["Outcome-based pricing tied to a metric the customer already tracks — tickets resolved, leads converted, hours saved","A public value dashboard showing each customer exactly what the product earned or saved them this month","Reverse trials: full product free until it demonstrably pays for itself, then pricing kicks in"]
+    },
+    recs: [
+      {title:"Charge for the outcome, not the login",body:"Seat-based pricing taxes adoption — the more your champion succeeds, the more they pay. Pick one metric your product directly moves (resolved tickets, qualified leads, processed invoices) and price against it. Customers stop auditing seats and start rooting for your invoice to grow, because it means theirs did too."},
+      {title:"Win the first 24 hours",body:"The average B2B SaaS takes 3-6 months to implement; most churn is decided in week one. Engineer a path from signup to first measurable result in under 24 hours — preloaded templates, automatic data import, one integration instead of twelve. The vendor that shows value before the kickoff call has already won the renewal."},
+      {title:"Make leaving easy — and watch retention rise",body:"Lock-in retains contracts, not customers. Offer monthly terms, one-click data export, and a documented off-boarding path, then publish it. The counterintuitive math: removing exit friction forces your product to earn its renewal every month, and buyers sign 2-3x faster when they know the door isn't welded shut."}
+    ]
+  },
+  {
+    name: "Hospitality & travel",
+    sub: "Hotels and travel brands buying stars and OTA rankings while the guest experience commoditizes",
+    summary: "Hotels compete on star ratings, amenity checklists, and OTA visibility — paying 15-25% commissions to rank in a list where every property looks interchangeable. The blue ocean lies in <strong>personalization and genuine local connection</strong>: knowing the guest before arrival, embedding the destination into the stay, and building direct relationships that no booking platform can intermediate.",
+    factors: ["Star rating","Amenity count","OTA visibility","Personalization","Local connection","Direct loyalty"],
+    red:  [5,4,5,1,1,2],
+    blue: [3,2,1,5,5,5],
+    errc: {
+      eliminate: ["Amenities nobody uses but everyone pays for — the trouser press, the business center, the minibar","Rate-parity dependence on OTAs as the primary acquisition channel"],
+      reduce: ["Spend on star-rating compliance items that guests never notice","Standardized chain protocols that make a stay in Lisbon feel identical to one in Frankfurt"],
+      raise: ["Pre-arrival personalization: pillow, room temperature, dietary needs known before check-in","Staff empowerment: give every employee a discretionary budget to fix problems and create moments"],
+      create: ["A local insider program: staff-curated neighborhood experiences guests can't book anywhere else","Direct-booking membership with member-only rates, room choice, and flexible check-in","Post-stay relationship: city guides, return-guest recognition, and pre-arranged favorites on the next visit"]
+    },
+    recs: [
+      {title:"Fire your trouser press, hire a neighbor",body:"Audit your amenities by actual usage — most hotels find 30-40% of their amenity cost serves under 5% of guests. Reallocate that budget to one thing OTAs can't list: staff who know the neighborhood. The hotel that books you a table at the place locals queue for beats the one with a fifth pillow option."},
+      {title:"Know the guest before the lobby does",body:"Send a 60-second pre-arrival form: pillow firmness, arrival time, one thing they're hoping to do in the city. Then act on it visibly. A handwritten note with two restaurant picks costs €2 and produces more five-star reviews than a €200,000 lobby renovation. Personalization at check-in is theater; personalization before arrival is loyalty."},
+      {title:"Treat every OTA booking as a one-time acquisition cost",body:"You paid 15-25% commission for that guest — never pay it twice. Capture their email at check-in, enroll them in a direct-booking tier with a 10% member rate and free flexibility, and make rebooking direct the obvious choice. Shifting 20 points of bookings from OTA to direct adds 3-5 points of margin without raising a single price."}
+    ]
+  },
+  {
+    name: "Education & training",
+    sub: "Institutions selling accreditation and campuses while learners and employers ask what graduates can actually do",
+    summary: "Education providers compete on accreditation, curriculum breadth, and campus facilities — a red ocean where degrees take years, cost fortunes, and employers still retrain every hire. The blue ocean lies in <strong>applied skills with guaranteed career outcomes</strong>: short, stackable, job-anchored programs where the institution shares the risk and the proof is a portfolio, not a transcript.",
+    factors: ["Accreditation","Curriculum breadth","Campus facilities","Applied skills","Flexibility","Career outcomes"],
+    red:  [5,5,4,2,1,1],
+    blue: [2,2,1,5,5,5],
+    errc: {
+      eliminate: ["Fixed semester calendars that force learners to wait months for an entry point","Lecture-hall courses with no project output an employer could ever evaluate"],
+      reduce: ["Curriculum breadth: from 40-course catalogs to deep tracks built around 8-10 in-demand roles","Campus footprint and overhead by moving theory online and reserving physical space for practice"],
+      raise: ["Applied skill density: every module ends in a portfolio artifact, not a multiple-choice exam","Instructor currency: teachers who practice the craft now, not those who practiced it in 2005"],
+      create: ["Outcome-linked tuition: income share or partial refund if graduates aren't hired within 6 months","Stackable micro-credentials that build toward a full qualification at the learner's own pace","Employer co-designed capstones: real company problems, with hiring interviews built into the final review"]
+    },
+    recs: [
+      {title:"Sell the job, not the syllabus",body:"Learners don't buy 120 credits; they buy the career on the other side. Publish your placement rate, median starting salary, and time-to-hire for every program — audited, not asserted. Then back it with skin in the game: a 25-50% tuition refund if a graduate isn't employed in field within 6 months. The providers who can't make that promise are your market share."},
+      {title:"Make the portfolio the diploma",body:"Employers trust evidence over transcripts. Restructure every course so it ends with a reviewable artifact — a deployed app, a marketing campaign with real metrics, a financial model. A graduate with 8 employer-graded projects beats one with a 3.8 GPA in every screening process that matters."},
+      {title:"Unbundle the degree into 6-week blocks",body:"A working adult can't disappear for 3 years, but anyone can commit to 6 weeks. Break programs into stackable micro-credentials with monthly start dates, each independently valuable and each counting toward the full qualification. You convert the 95% of the market that a semester calendar locks out — and they pay as they go."}
+    ]
   }
 ];
 
 const $=id=>document.getElementById(id);
 const tip=$('tip');
-let tt,activeIdx=-1;
+let tt,activeIdx=-1,CUR=null,saveT;
+const DEF_F=["Price","Quality","Speed","Service"];
+
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const clamp=v=>{v=Math.round(+v);return isNaN(v)?0:Math.max(0,Math.min(5,v));};
+const enc=o=>btoa(unescape(encodeURIComponent(JSON.stringify(o))));
+const dec=s=>JSON.parse(decodeURIComponent(escape(atob(s))));
+const slug=s=>s.toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')||'canvas';
+
+function stateObj(){
+  if(!CUR)return null;
+  return CUR.mode==='custom'
+    ?{c:1,t:CUR.title,f:CUR.S.f,r:CUR.S.r,b:CUR.S.b}
+    :{i:CUR.idx,r:CUR.S.r,b:CUR.S.b};
+}
+function saveState(){
+  clearTimeout(saveT);
+  saveT=setTimeout(()=>{
+    const st=stateObj();
+    if(st){try{localStorage.setItem('boc-state',JSON.stringify(st));}catch(e){}}
+  },300);
+}
 
 // Build picker
 const grid=$('pickGrid');
@@ -374,35 +517,28 @@ DATA.forEach((d,i)=>{
   btn.className='pick-btn';
   btn.innerHTML=`${d.name}<span>${d.sub}</span>`;
   btn.addEventListener('click',()=>{
-    grid.querySelectorAll('.pick-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    if(activeIdx!==i){activeIdx=i;render(d);}
+    if(activeIdx===i)return;
+    setActive(btn);activeIdx=i;render(d);
   });
   grid.appendChild(btn);
 });
+const buildBtn=document.createElement('button');
+buildBtn.className='pick-btn build';
+buildBtn.innerHTML=`+ Build your own<span>Map your own market on a blank canvas</span>`;
+buildBtn.addEventListener('click',()=>{
+  if(activeIdx===-2)return;
+  setActive(buildBtn);renderCustom(null);
+});
+grid.appendChild(buildBtn);
 
-function render(d){
-  const res=$('res');
-  const PAD={t:35,r:28,b:55,l:44};
-  const ch=window.innerWidth>=640?360:280;
+function setActive(btn){
+  grid.querySelectorAll('.pick-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+}
 
-  // Clone data for mutability
-  const S={f:[...d.factors],r:[...d.red],b:[...d.blue]};
-
-  function CW(){
-    const min=window.innerWidth>=640?110:80;
-    return Math.max(window.innerWidth-48,S.f.length*min+PAD.l+PAD.r);
-  }
-
-  let h='';
-
-  // Summary
-  h+=`<div class="sec fade-up" style="animation-delay:.1s">
-    <p class="summary">${d.summary}</p>
-  </div>`;
-
-  // Chart
-  h+=`<div class="sec fade-up" style="animation-delay:.2s">
+// Shared chart + sliders + toolbar markup
+function chartSec(delay,extra){
+  return `<div class="sec fade-up" style="animation-delay:${delay}s">
     <div class="sec-h"><div class="sec-line gr"></div><div class="sec-t">Value curves</div></div>
     <div class="crd">
       <div class="ch-top"><div class="lgn">
@@ -413,9 +549,82 @@ function render(d){
       <div class="sl-wrap">
         <div class="sl-head"><span class="lr">&#9679; Industry</span><span class="lb">&#9679; Blue ocean</span></div>
         <div id="sls"></div>
+        ${extra||''}
       </div>
     </div>
+    <div class="tools">
+      <button class="tool-btn" id="btnCopy" type="button">Copy link</button>
+      <button class="tool-btn" id="btnPng" type="button">Download PNG</button>
+      <button class="tool-btn reset" id="btnReset" type="button">Reset</button>
+    </div>
   </div>`;
+}
+
+// Shared slider builder (custom=true adds editable names + remove buttons)
+function buildSliders(S,custom){
+  const sls=$('sls');sls.innerHTML='';
+  S.f.forEach((f,i)=>{
+    const row=document.createElement('div');row.className='sl-row';
+    let nm;
+    if(custom){
+      nm=document.createElement('div');nm.className='sl-name-row';
+      const ni=document.createElement('input');
+      ni.className='sl-name-in';ni.value=f;ni.maxLength=24;ni.placeholder='Factor name';
+      ni.addEventListener('input',function(){S.f[i]=this.value;drawChart(S,false);saveState();});
+      const rm=document.createElement('button');
+      rm.type='button';rm.className='sl-rm';rm.innerHTML='&times;';rm.title='Remove factor';
+      if(S.f.length<=2)rm.disabled=true;
+      rm.addEventListener('click',()=>{
+        if(S.f.length<=2)return;
+        S.f.splice(i,1);S.r.splice(i,1);S.b.splice(i,1);
+        buildSliders(S,true);drawChart(S,false);saveState();
+        const a=$('addF');if(a)a.disabled=S.f.length>=10;
+      });
+      nm.appendChild(ni);nm.appendChild(rm);
+    }else{
+      nm=document.createElement('div');nm.className='sl-name';nm.textContent=f;
+    }
+    const tracks=document.createElement('div');tracks.className='sl-tracks';
+
+    function mk(cls,arr){
+      const t=document.createElement('div');t.className='sl-t';
+      const inp=document.createElement('input');
+      inp.type='range';inp.min=0;inp.max=5;inp.step=1;inp.value=arr[i];inp.className=cls;
+      const v=document.createElement('span');
+      v.className='sl-v '+(cls==='sr'?'vr':'vb');v.textContent=arr[i];
+      inp.addEventListener('input',function(){arr[i]=+this.value;v.textContent=this.value;drawChart(S,false);saveState();});
+      t.appendChild(inp);t.appendChild(v);return t;
+    }
+    tracks.appendChild(mk('sr',S.r));
+    tracks.appendChild(mk('sb',S.b));
+    row.appendChild(nm);row.appendChild(tracks);sls.appendChild(row);
+  });
+}
+
+function bindTools(){
+  $('btnCopy').addEventListener('click',copyLink);
+  $('btnPng').addEventListener('click',exportPNG);
+  $('btnReset').addEventListener('click',resetCanvas);
+}
+
+function render(d,st,noScroll){
+  const res=$('res');
+
+  // Clone data for mutability, apply shared/saved state if valid
+  const S={f:[...d.factors],r:[...d.red],b:[...d.blue]};
+  if(st&&Array.isArray(st.r)&&st.r.length===S.f.length)S.r=st.r.map(clamp);
+  if(st&&Array.isArray(st.b)&&st.b.length===S.f.length)S.b=st.b.map(clamp);
+  CUR={mode:'preset',idx:DATA.indexOf(d),S};
+
+  let h='';
+
+  // Summary
+  h+=`<div class="sec fade-up" style="animation-delay:.1s">
+    <p class="summary">${d.summary}</p>
+  </div>`;
+
+  // Chart
+  h+=chartSec(.2);
 
   // ERRC
   h+=`<div class="sec fade-up" style="animation-delay:.35s">
@@ -437,34 +646,135 @@ function render(d){
   res.innerHTML=h;
   res.classList.add('show');
 
-  // Build sliders
-  const sls=$('sls');
-  S.f.forEach((f,i)=>{
-    const row=document.createElement('div');row.className='sl-row';
-    const nm=document.createElement('div');nm.className='sl-name';nm.textContent=f;
-    const tracks=document.createElement('div');tracks.className='sl-tracks';
-
-    function mk(cls,arr){
-      const t=document.createElement('div');t.className='sl-t';
-      const inp=document.createElement('input');
-      inp.type='range';inp.min=0;inp.max=5;inp.step=1;inp.value=arr[i];inp.className=cls;
-      const v=document.createElement('span');
-      v.className='sl-v '+(cls==='sr'?'vr':'vb');v.textContent=arr[i];
-      inp.addEventListener('input',function(){arr[i]=+this.value;v.textContent=this.value;drawChart(S,false);});
-      t.appendChild(inp);t.appendChild(v);return t;
-    }
-    tracks.appendChild(mk('sr',S.r));
-    tracks.appendChild(mk('sb',S.b));
-    row.appendChild(nm);row.appendChild(tracks);sls.appendChild(row);
-  });
-
+  buildSliders(S,false);
   drawChart(S,true);
+  bindTools();
 
   // Resize handler
   window.onresize=()=>{drawChart(S,false);};
 
-  // Scroll to results
-  res.scrollIntoView({behavior:'smooth',block:'start'});
+  saveState();
+  if(!noScroll)res.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function renderCustom(st,noScroll){
+  const res=$('res');
+  activeIdx=-2;
+  setActive(grid.querySelector('.pick-btn.build'));
+
+  const S={f:DEF_F.slice(),r:[3,3,3,3],b:[3,3,3,3]};
+  let title='My canvas';
+  if(st&&st.c){
+    if(Array.isArray(st.f)&&st.f.length>=2&&st.f.length<=10){
+      S.f=st.f.map(x=>String(x).slice(0,24));
+      S.r=(Array.isArray(st.r)&&st.r.length===S.f.length?st.r:S.f.map(()=>3)).map(clamp);
+      S.b=(Array.isArray(st.b)&&st.b.length===S.f.length?st.b:S.f.map(()=>3)).map(clamp);
+    }
+    if(typeof st.t==='string'&&st.t)title=st.t.slice(0,60);
+  }
+  CUR={mode:'custom',title,S};
+
+  res.innerHTML=`<div class="sec fade-up" style="animation-delay:.05s">
+    <input id="cTitle" class="c-title" maxlength="60" value="${esc(title)}" aria-label="Canvas title">
+    <p class="c-help"><b style="color:var(--red)">Red</b> = how your industry competes today. <b style="color:var(--blue)">Blue</b> = your move. Rename the factors, add your own, and shape both curves.</p>
+  </div>`+chartSec(.15,`<button class="add-f" id="addF" type="button">+ Add factor</button>`);
+  res.classList.add('show');
+
+  $('cTitle').addEventListener('input',function(){CUR.title=this.value;saveState();});
+  $('addF').disabled=S.f.length>=10;
+  $('addF').addEventListener('click',()=>{
+    if(S.f.length>=10)return;
+    S.f.push('Factor '+(S.f.length+1));S.r.push(3);S.b.push(3);
+    buildSliders(S,true);drawChart(S,false);saveState();
+    $('addF').disabled=S.f.length>=10;
+  });
+
+  buildSliders(S,true);
+  drawChart(S,true);
+  bindTools();
+
+  window.onresize=()=>{drawChart(S,false);};
+
+  saveState();
+  if(!noScroll)res.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ═══ Share / export / reset ═══
+function copyLink(){
+  const st=stateObj();if(!st)return;
+  history.replaceState(null,'','#'+encodeURIComponent(enc(st)));
+  const url=location.href,btn=$('btnCopy');
+  const done=()=>{
+    btn.textContent='Link copied ✓';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='Copy link';btn.classList.remove('ok');},1500);
+  };
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(done,()=>fallbackCopy(url,done));
+  }else fallbackCopy(url,done);
+}
+function fallbackCopy(txt,done){
+  const ta=document.createElement('textarea');
+  ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();
+  try{if(document.execCommand('copy'))done();}catch(e){}
+  document.body.removeChild(ta);
+}
+
+function exportPNG(){
+  if(!CUR)return;
+  drawChart(CUR.S,false); // strip animation classes before serializing
+  const svg=$('svg');
+  const w=+svg.getAttribute('width'),hs=parseFloat(svg.style.height);
+  const head=66,scale=2;
+  const name=CUR.mode==='custom'?(CUR.title||'Custom canvas'):DATA[CUR.idx].name;
+  const xml=new XMLSerializer().serializeToString(svg);
+  const img=new Image();
+  img.onload=function(){
+    const cv=document.createElement('canvas');
+    cv.width=w*scale;cv.height=(hs+head)*scale;
+    const x=cv.getContext('2d');
+    x.scale(scale,scale);
+    x.fillStyle='#0A0E0C';x.fillRect(0,0,w,hs+head);
+    x.fillStyle='#ECF0ED';x.font='400 22px Georgia,serif';
+    x.fillText(name,24,32);
+    x.font='600 11px sans-serif';
+    x.fillStyle='#F06B58';x.fillText('— Industry standard',24,54);
+    x.fillStyle='#58B4F0';x.fillText('— Blue ocean move',24+x.measureText('— Industry standard').width+26,54);
+    x.drawImage(img,0,head,w,hs);
+    const a=document.createElement('a');
+    a.download='blue-ocean-'+slug(name)+'.png';
+    a.href=cv.toDataURL('image/png');
+    a.click();
+  };
+  img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(xml);
+}
+
+function resetCanvas(){
+  try{localStorage.removeItem('boc-state');}catch(e){}
+  history.replaceState(null,'',location.pathname+location.search);
+  if(!CUR)return;
+  if(CUR.mode==='custom')renderCustom(null,true);
+  else render(DATA[CUR.idx],null,true);
+}
+
+// ═══ Restore: URL hash > localStorage > fresh ═══
+function loadState(){
+  let st=null;
+  if(location.hash.length>1){
+    try{st=dec(decodeURIComponent(location.hash.slice(1)));}catch(e){st=null;}
+  }
+  if(!st){
+    try{st=JSON.parse(localStorage.getItem('boc-state'));}catch(e){st=null;}
+  }
+  if(!st||typeof st!=='object')return;
+  try{
+    if(st.c){renderCustom(st,true);}
+    else if(typeof st.i==='number'&&DATA[st.i]){
+      activeIdx=st.i;
+      setActive(grid.children[st.i]);
+      render(DATA[st.i],st,true);
+    }
+  }catch(e){}
 }
 
 function drawChart(S,anim){
@@ -514,7 +824,7 @@ function drawChart(S,anim){
   for(let i=0;i<n;i++){
     const x=xP(i);
     s+=`<line x1="${x}" y1="${PAD.t}" x2="${x}" y2="${yP(0)}" stroke="#1C2A23" stroke-width="1" stroke-dasharray="2,4"/>`;
-    const lbl=S.f[i].length>16?S.f[i].slice(0,15)+'\u2026':S.f[i];
+    const lbl=esc(S.f[i].length>16?S.f[i].slice(0,15)+'\u2026':S.f[i]);
     s+=`<text x="${x}" y="${ch-16}" font-family="Instrument Sans,sans-serif" font-size="11" font-weight="600" fill="#B8CABD" text-anchor="middle">${lbl}</text>`;
   }
 
@@ -550,7 +860,7 @@ function drawChart(S,anim){
       const val=t==='r'?S.r[idx]:S.b[idx];
       const label=t==='r'?'Industry':'Blue ocean';
       const clr=t==='r'?'#F06B58':'#58B4F0';
-      tip.innerHTML=`<span style="color:${clr}">${label}</span>&ensp;${S.f[idx]}: <b>${val}</b>/5`;
+      tip.innerHTML=`<span style="color:${clr}">${label}</span>&ensp;${esc(S.f[idx])}: <b>${val}</b>/5`;
       tip.classList.add('on');
       const cx=e.touches?e.touches[0].clientX:e.clientX;
       const cy=e.touches?e.touches[0].clientY:e.clientY;
@@ -562,6 +872,8 @@ function drawChart(S,anim){
     dot.addEventListener('mouseleave',()=>{clearTimeout(tt);tip.classList.remove('on');});
   });
 }
+
+loadState();
 </script>
 </body>
 </html>
