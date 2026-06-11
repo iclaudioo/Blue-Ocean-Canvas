@@ -10,7 +10,7 @@ import { getFromHistory } from "@/lib/history";
 import { getPreset } from "@/lib/presets";
 import { useAnalysis } from "@/hooks/useAnalysis";
 import { AnalysisView } from "@/components/analysis/AnalysisView";
-import { LangToggle } from "@/components/ui/LangToggle";
+import LangToggle from "@/components/ui/LangToggle";
 
 function AnalysisInner() {
   const { lang, t } = useI18n();

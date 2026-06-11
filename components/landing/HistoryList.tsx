@@ -15,7 +15,10 @@ export default function HistoryList() {
   const [items, setItems] = useState<Analysis[] | null>(null);
 
   useEffect(() => {
-    setItems(listHistory());
+    // Deferred so the localStorage read doesn't trigger a cascading
+    // render inside the effect body (and stays SSR-safe).
+    const id = window.setTimeout(() => setItems(listHistory()), 0);
+    return () => window.clearTimeout(id);
   }, []);
 
   if (!items || items.length === 0) return null;
